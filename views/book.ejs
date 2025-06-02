@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= book.title %> - Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #007bff;
+    }
+
+    img {
+      max-width: 200px;
+      height: auto;
+      display: block;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    a.back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1><%= book.title %></h1>
+    <img src="https://covers.openlibrary.org/b/olid/<%= book.olid %>-L.jpg" alt="Cover of <%= book.title %>" />
+    <span class="label">Author:</span>
+    <p><%= book.author %></p>
+    <span class="label">Date:</span>
+    <p><%= new Date(book.created_at).toISOString().split('T')[0] %></p>
+    <span class="label">Rating:</span>
+    <p><%= book.rating %>/10</p>
+    <span class="label">Summary:</span>
+    <p><%= book.summary %></p>
+    <a href="/" class="back-link">← Back to book list</a>
+  </div>
+</body>
+
+</html>

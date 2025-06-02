@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Notes</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    header h2 {
+      margin: 5px 0 10px 0;
+      font-weight: normal;
+      font-size: 1.5rem;
+    }
+
+    header p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    main {
+      padding: 20px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    ul.book-list {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    ul.book-list li {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s ease;
+    }
+
+    ul.book-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    ul.book-list img {
+      width: 120px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    ul.book-list h3 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    ul.book-list span {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 5px;
+      display: block;
+      text-align: center;
+    }
+
+    ul.book-list p {
+      font-size: 0.9rem;
+      color: #444;
+      text-align: justify;
+      margin-top: 10px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #ddd;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+
+      header h2 {
+        font-size: 1.2rem;
+      }
+
+      main {
+        padding: 10px 20px;
+      }
+
+      ul.book-list {
+        grid-template-columns: 1fr;
+      }
+
+      ul.book-list img {
+        width: 100px;
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Khalilur Rahman</h1>
+    <h2>Books I’ve read</h2>
+    <p>
+      Tiny summary but detailed notes for each. Use the OLID number to find it
+      from your openlibrary or anywhere else. This page will constantly
+      update as I read more, so bookmark it if you want to check back in a few
+      months.
+    </p>
+  </header>
+  <hr />
+  <main>
+    <ul class="book-list">
+      <% books.forEach((book) => { %>
+      <li>
+        <img src="https://covers.openlibrary.org/b/olid/<%= book.olid %>-M.jpg" alt="Cover of <%= book.title %>" />
+        <h3><%= book.title %> - by <%= book.author %></h3>
+        <span><strong>Date:</strong> <%= new Date(book.created_at).toISOString().split('T')[0] %></span>
+        <span><strong>How strongly I recommend it:</strong> <%= book.rating %>/10</span>
+        <p><strong>Summary:</strong>
+          <% 
+            const words = book.summary.split(' ');
+            const shortSummary = words.length > 100 ? words.slice(0, 100).join(' ') + '...' : book.summary;
+          %>
+          <%= shortSummary %>
+          <% if (words.length > 100) { %>
+          <a href="/book/<%= book.id %>">See more</a>
+          <% } %>
+        </p>
+      </li>
+      <% }); %>
+    </ul>
+  </main>
+</body>
+
+</html>

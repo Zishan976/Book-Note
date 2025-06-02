@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Manage Books</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1,
+    h2 {
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+      font-size: 14px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+      font-weight: normal;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .actions {
+      white-space: nowrap;
+    }
+
+    .actions form {
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .message {
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+  <script>
+    function confirmDelete() {
+      return confirm('Are you sure you want to delete this book?');
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Admin Panel - Manage Books</h1>
+
+  <% if (typeof successMessage !== 'undefined') { %>
+  <div class="message success"><%= successMessage %></div>
+  <% } %>
+  <% if (typeof errorMessage !== 'undefined') { %>
+  <div class="message error"><%= errorMessage %></div>
+  <% } %>
+
+  <h2>Add New Book</h2>
+  <form action="/admin" method="post">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" placeholder="Title" required />
+
+    <label for="olid">OLID</label>
+    <input type="text" id="olid" name="olid" placeholder="OLID" required />
+
+    <label for="author">Author</label>
+    <input type="text" id="author" name="author" placeholder="Author" required />
+
+    <label for="summary">Summary</label>
+    <textarea id="summary" name="summary" placeholder="Summary" required></textarea>
+
+    <label for="rating">Rating (0-10)</label>
+    <input type="number" id="rating" name="rating" placeholder="Rating" required min="0" max="10" />
+
+    <button type="submit">Add Book</button>
+  </form>
+
+  <h2>Existing Books</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>OLID</th>
+        <th>Author</th>
+        <th>Summary</th>
+        <th>Rating</th>
+        <th class="actions">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% books.forEach((book) => { %>
+      <tr>
+        <form action="/admin/update" method="post">
+          <input type="hidden" name="id" value="<%= book.id %>" />
+          <td><input type="text" name="title" value="<%= book.title %>" required /></td>
+          <td><input type="text" name="olid" value="<%= book.olid %>" required /></td>
+          <td><input type="text" name="author" value="<%= book.author %>" required /></td>
+          <td><textarea name="summary" required><%= book.summary %></textarea></td>
+          <td><input type="number" name="rating" value="<%= book.rating %>" required min="0" max="10" /></td>
+          <td class="actions">
+            <button type="submit">Update</button>
+        </form>
+        <form action="/admin/delete" method="post" onsubmit="return confirmDelete();">
+          <input type="hidden" name="id" value="<%= book.id %>" />
+          <button type="submit" style="background-color: #dc3545;">Delete</button>
+        </form>
+        </td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+
+</html>

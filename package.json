@@ -1,0 +1,19 @@
+{
+  "name": "book_note",
+  "version": "1.0.0",
+  "description": "history of my all readed books",
+  "license": "ISC",
+  "author": "Zishan",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.0"
+  }
+}
