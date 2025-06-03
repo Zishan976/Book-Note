@@ -1,12 +1,15 @@
 import express from "express";
 import axios from "axios";
 import pg from "pg";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+const { Pool } = pg;
 
 // async function searchBooks(query) {
 //   try {
@@ -19,12 +22,19 @@ app.use(express.static("public"));
 //   }
 // }
 
-const db = new pg.Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "book_admin",
-  password: "zishan",
-  port: 5432,
+// const db = new pg.Pool({
+//   user: "postgres",
+//   host: "localhost",
+//   database: "book_admin",
+//   password: "zishan",
+//   port: 5432,
+// });
+
+const db = new Pool({
+  connectionString: process.env.DATABASE_URL, // Use Render's database URL
+  ssl: {
+    rejectUnauthorized: false, // Required for Render's PostgreSQL
+  },
 });
 
 db.connect((err) => {
